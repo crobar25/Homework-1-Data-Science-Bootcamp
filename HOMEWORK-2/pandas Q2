@@ -1,0 +1,13 @@
+import pandas as pd
+
+df = pd.read_csv('https://raw.githubusercontent.com/selva86/datasets/master/Cars93_miss.csv')
+#print(df[['Min.Price', 'Max.Price']].head())
+print(df[['Min.Price', 'Max.Price']].isnull().sum())
+
+min_price_mean = df['Min.Price'].mean()
+max_price_mean = df['Max.Price'].mean()
+
+df['Min.Price'] = df['Min.Price'].fillna(min_price_mean)
+df['Max.Price'] = df['Max.Price'].fillna(max_price_mean)
+
+print(df[['Min.Price', 'Max.Price']].isnull().sum())

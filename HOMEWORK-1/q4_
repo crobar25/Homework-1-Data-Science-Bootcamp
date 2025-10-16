@@ -1,0 +1,6 @@
+word = input("Please enter a word: ")
+is_palindrome = True
+for char in range(len(word)):
+    if word[char] != word[len(word)-char-1]:
+        is_palindrome = False
+print(is_palindrome)

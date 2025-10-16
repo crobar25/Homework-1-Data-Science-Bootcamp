@@ -1,0 +1,8 @@
+import pandas as pd
+
+df = pd.read_csv('https://raw.githubusercontent.com/selva86/datasets/master/Cars93_miss.csv')
+filtered_array = df.loc[::20, ["Manufacturer", "Model", "Type"]]
+#print(filtered_array)
+#print(df)
+array = df.loc[::, ["Min.Price", "Max.Price"]]
+print(array)

@@ -1,0 +1,5 @@
+animals=['tiger', 'elephant', 'monkey', 'zebra', 'panther']
+for item in range(len(animals)):
+    animals[item] = animals[item].upper()
+
+print(animals)
