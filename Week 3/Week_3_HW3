@@ -1,0 +1,22 @@
+import pandas as pd
+
+url = 'https://data.cityofnewyork.us/api/views/6fi9-q3ta/rows.csv?accessType=DOWNLOAD'
+df = pd.read_csv(url)
+
+print(df.columns)
+def categorize(hour):
+    if 5 <= hour < 12:
+        return 'Morning'
+    elif 12 <= hour < 17:
+        return 'Afternoon'
+    elif 17 <= hour < 21:
+        return 'Evening'
+    else:
+        return 'Night'
+
+df['hour_beginning'] = pd.to_datetime(df['hour_beginning'], format = '%m/%d/%Y %I:%M:%S %p')
+df['hour'] = df['hour_beginning'].dt.hour
+df['time_of_day'] = df['hour'].apply(categorize)
+print(df['time_of_day'])
+activity_by_time = df.groupby('time_of_day')['Pedestrians'].mean().sort_values(ascending=False)
+print(activity_by_time)

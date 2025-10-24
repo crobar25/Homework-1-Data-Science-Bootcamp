@@ -1,0 +1,27 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.preprocessing import LabelEncoder
+
+
+url = 'https://data.cityofnewyork.us/api/views/6fi9-q3ta/rows.csv?accessType=DOWNLOAD'
+df = pd.read_csv(url)
+
+df['hour_beginning'] = pd.to_datetime(df['hour_beginning'], format='%m/%d/%Y %I:%M:%S %p')
+df_2019 = df[df['hour_beginning'].dt.year == 2019]
+weather_avg = df_2019.groupby('weather_summary')['Pedestrians'].sum()
+#print(weather_avg)
+le = LabelEncoder()
+df['weather_encoded'] = le.fit_transform(df['weather_summary'])
+
+
+correlation_matrix = df[['Pedestrians', 'weather_encoded']].corr()
+
+plt.figure(figsize=(8, 6))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f")
+plt.title('Correlation Matrix of Pedestrians, Temperature, and Precipitation')
+plt.tight_layout()
+plt.savefig('pedestrian_weather_plot')
+
+weather_summary_table = df_2019.groupby('weather_summary')['Pedestrians'].mean().sort_values(ascending = False)
+print(weather_summary_table)
